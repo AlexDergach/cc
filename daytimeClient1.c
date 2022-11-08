@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     
     if(numBytes < 0)
         DieWithSystemMessage("recv() failed");
-	else if
+	else if (numBytes == 0)
 		DieWithUserMessage("recv()", "connection closed prematurely");
 
     fputc('\n', stdout);

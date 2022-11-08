@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     if(argc < 3)
     DieWithUserMessage("Parameter (s)",
         "<Server Address> <Server Port>");
-   
+    
     char *servIP =argv[1];
 
     in_port_t servPort = atoi(argv[2]);
@@ -39,14 +39,16 @@ int main(int argc, char *argv[]) {
 
     if(connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)
         DieWithSystemMessage("connect() failed");
-   
+    
     while ((numBytes = recv(sock, recvbuffer, BUFSIZE - 1, 0)) > 0) {
         recvbuffer[numBytes] = '\0';
         fputs(recvbuffer, stdout);
         } //end while
-   
+    
     if(numBytes < 0)
         DieWithSystemMessage("recv() failed");
+	else if
+		DieWithUserMessage("recv()", "connection closed prematurely");
 
     fputc('\n', stdout);
 

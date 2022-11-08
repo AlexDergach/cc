@@ -13,10 +13,8 @@ static const int MAXPENDING = 5; // Maximum outstanding connection requests
 
 int main(int argc, char *argv[]) {
 	time_t	ticks;  //variable to hold date and time data
-	char sendbuffer[BUFSIZE]; // Buffer for sending data to the client 
-	char send_stars[50] = "**********";
-	char send_spacing[50] = "          ";
-	char send_text[50] = "Hi from Jay!";
+	c
+har sendbuffer[BUFSIZE]; // Buffer for sending data to the client 
 
 	if (argc != 2) // Test for correct number of arguments
 		DieWithUserMessage("Parameter(s)", "<Server Port>");
@@ -53,12 +51,6 @@ int main(int argc, char *argv[]) {
     // clntSock is connected to a client!
     snprintf(sendbuffer, sizeof(sendbuffer), "%.24s\r\n", ctime(&ticks)); //Create data and time string in outgoing buffer
     ssize_t numBytesSent = send(clntSock, sendbuffer, strlen(sendbuffer), 0); //Send date and time string to the client 
-    ssize_t numBytesSent_stars = send(clntSock, send_stars, strlen(send_stars), 0);
-    ssize_t numBytesSent_spacing = send(clntSock, send_spacing, strlen(send_spacing), 0);
-    ssize_t numBytesSent_text = send(clntSock, send_text, strlen(send_text), 0);
-    ssize_t numBytesSent_spacing2 = send(clntSock, send_spacing, strlen(send_spacing), 0);
-    ssize_t numButesSent_stars2 = send(clntSock, send_stars, strlen(send_stars), 0);  
-
     if (numBytesSent < 0)
       DieWithSystemMessage("send() failed");
 

@@ -17,6 +17,8 @@ int main(int argc, char *argv[]) {
 	char send_stars[50] = "**********";
 	char send_spacing[50] = "          ";
 	char send_text[50] = "Hi from Jay!";
+	char recvbuffer[BUFSIZE];
+	int numBytes = 0;
 
 	if (argc != 2) // Test for correct number of arguments
 		DieWithUserMessage("Parameter(s)", "<Server Port>");
@@ -49,6 +51,12 @@ int main(int argc, char *argv[]) {
     int clntSock = accept(servSock, (struct sockaddr *) NULL, NULL);
     if (clntSock < 0)
       DieWithSystemMessage("accept() failed");
+    
+    while ((numBytes = recv(clntSock, recvbuffer, BUFSIZE - 1, 0)) > 0) {
+    recvbuffer[numBytes] = '\0';
+    fputs(recvbuffer, stdout);    
+
+    } // end while
 
     // clntSock is connected to a client!
     snprintf(sendbuffer, sizeof(sendbuffer), "%.24s\r\n", ctime(&ticks)); //Create data and time string in outgoing buffer

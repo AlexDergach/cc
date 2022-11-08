@@ -11,12 +11,14 @@
 int main(int argc, char *argv[]) {
     char recvbuffer[BUFSIZE];
     int numBytes = 0;
+    char sendbuffer[BUFSIZE];	
 
     if(argc < 3)
     DieWithUserMessage("Parameter (s)",
         "<Server Address> <Server Port>");
     
     char *servIP =argv[1];
+    char *echoString = argv[3];
 
     in_port_t servPort = atoi(argv[2]);
 
@@ -40,6 +42,9 @@ int main(int argc, char *argv[]) {
     if(connect(sock, (struct sockaddr *) &servAddr, sizeof(servAddr)) < 0)
         DieWithSystemMessage("connect() failed");
     
+   snprintf(sendbuffer, sizeof(sendbuffer), "%s\r\n", echoString);
+   send(sock, sendbuffer, strlen(sendbuffer),0);    
+
     while ((numBytes = recv(sock, recvbuffer, BUFSIZE - 1, 0)) > 0) {
         recvbuffer[numBytes] = '\0';
         fputs(recvbuffer, stdout);

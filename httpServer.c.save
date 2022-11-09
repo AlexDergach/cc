@@ -13,6 +13,8 @@ static const int MAXPENDING = 5; // Maximum outstanding connection requests
 
 int main(int argc, char *argv[]) {
 	time_t	ticks;  //variable to hold date and time data
+
+
 	char sendbuffer[BUFSIZE]; // Buffer for sending data to the client 
 	char send_stars[50] = "**********";
 	char send_spacing[50] = "          ";

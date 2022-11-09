@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 	char sendbuffer[BUFSIZE]; // Buffer for sending data to the client 
 	char send_stars[50] = "**********";
 	char send_spacing[50] = "          ";
-	char send_text[50] = "Hi from Jay!";
+	char send_text[50] = "This is alex 8)";
 
 	if (argc != 2) // Test for correct number of arguments
 		DieWithUserMessage("Parameter(s)", "<Server Port>");

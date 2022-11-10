@@ -24,9 +24,21 @@ FILE * hFile; //FILE POINTER REQUIRED TO OPEN FILE
          continue;
 	 }
 
-	 if(strcmp (path, " ./") == 0)//CHECK WHAT IS IN PATH
+	 if(strcmp (path, " ./index.html") == 0)//CHECK WHAT IS IN PATH
      {
-      IF ./ REPLACE WITH HOME PAGE FILE NAME
+      snprintf(sendbuffer, sizeof(sendbuffer), HOME_PAGE);
+		}
+		else
+		{
+		snprintf(sendbuffer, sizeof(sendbuffer), ERROR_PAGE);
+		}
+
+		ssize_t numBytesSent = send(clntSock, sendbuffer, strlen(sendbuffer), 0);
+
+			if (numBytesSent < 0)
+				DieWithSystemMessage("send() failed");
+		
+		close(clntSock);
       strcpy (path, "./index.html");
      }
 
@@ -35,20 +47,20 @@ FILE * hFile; //FILE POINTER REQUIRED TO OPEN FILE
               {
              //THIS IF SECTION ASSUMES REQUESTED FILE DOES NOT EXIST
              //OPEN THE ERROR PAGE
-             strcpy (path, "./error.html");
+             strcpy (path, "./otherpage.html");
 			 stat(filename,&st);
 			 size=st.st_size;//RETRIEVING FILE SIZE OF OPEN FILE 
-			 //STORENEGATIVEHTTPHEADERS(404RESPONSE)INOUTGOINGBUFFER
+			 //STORE NEGATIVE HTTP HEADERS(404RESPONSE)IN OUT GOING BUFFER
 			  }
 			  else
 			  {
-				//THISELSESECTIONASSUMESREQUESTEDFILEEXISTSANDISOPEN
+				//THIS ELSE SECTION ASSUMES REQUESTED FILE EXISTS AND IS OPEN
 			    stat(path,&st);
 				size=st.st_size;//RETRIEVING FILE SIZE OF OPEN FILE
-			  	//STOREPOSITIVEHTTPHEADERS(200RESPONSE)INOUTGOINGBUFFER
+			  	//STORE POSITIVE HTTP HEADERS(200RESPONSE)IN OUT GOING GBUFFER
 			  }
-			  //SENDHTTPHEADERSTOCONNECTEDSOCKET
-			  //RESETOUTGOINGBUFFER
+			  //SEND HTTP HEADERS TO CONNECTED SOCKET
+			  //RESET OUT GOING BUFFER
 			  while((char_in=fgetc(hFile))!=EOF)//READING CONTENTS OF FILE CHARACTER-BY-CHARACTER
 			  {
 				sendbuffer[count]=char_in;//STORING EACH CHARACTER IN OUTGOING BUFFER
@@ -57,9 +69,9 @@ FILE * hFile; //FILE POINTER REQUIRED TO OPEN FILE
 
 			  sendbuffer[count]='\0';//NULL TERMINATE FILE CONTENTS
 
-			  //SENDFILECONTENTSTOCONNECTEDSOCKET
+			  //SEND FILE CONTENTS TO CONNECTED SOCKET
 
-			  //RESETALLVARIABLESANDBUFFERS(INCLUDINGsend/recvbuffers),CLOSEFILEANDCONNECTEDSOCKET
+			  //RESET ALL VARIABLES AND BUFFERS(INCLUDING send/recvbuffers),CLOSE FILE AND CONNECTED SOCKET
 			  
 		}//END FOR LOOP
 
